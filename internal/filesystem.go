@@ -18,7 +18,7 @@ func NewFilesystemStorage(baseDir string) *FilesystemStorage {
 		home, _ := os.UserHomeDir()
 		baseDir = filepath.Join(home, ".config", "cbr-tmpl", "items")
 	}
-	os.MkdirAll(baseDir, 0755)
+	_ = os.MkdirAll(baseDir, 0755)
 	return &FilesystemStorage{baseDir: baseDir}
 }
 

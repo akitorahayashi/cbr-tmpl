@@ -20,13 +20,13 @@ func NewDeleteCmd(storage internal.Storage) *cobra.Command {
 			if err := storage.Delete(id); err != nil {
 				var notFoundErr *internal.ItemNotFoundError
 				if errors.As(err, &notFoundErr) {
-					fmt.Fprintln(cmd.ErrOrStderr(), errorStyle.Render(
+					_, _ = fmt.Fprintln(cmd.ErrOrStderr(), errorStyle.Render(
 						fmt.Sprintf("Error: item '%s' not found", id)))
 					return err
 				}
 				return err
 			}
-			fmt.Fprintln(cmd.OutOrStdout(), successStyle.Render(
+			_, _ = fmt.Fprintln(cmd.OutOrStdout(), successStyle.Render(
 				fmt.Sprintf("Deleted '%s'", id)))
 			return nil
 		},

@@ -19,11 +19,11 @@ func NewListCmd(storage internal.Storage) *cobra.Command {
 				return err
 			}
 			if len(items) == 0 {
-				fmt.Fprintln(cmd.OutOrStdout(), dimStyle.Render("No items found"))
+				_, _ = fmt.Fprintln(cmd.OutOrStdout(), dimStyle.Render("No items found"))
 				return nil
 			}
 			for _, id := range items {
-				fmt.Fprintf(cmd.OutOrStdout(), "  %s\n", id)
+				_, _ = fmt.Fprintf(cmd.OutOrStdout(), "  %s\n", id)
 			}
 			return nil
 		},
