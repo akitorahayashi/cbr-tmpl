@@ -15,10 +15,15 @@ type FilesystemStorage struct {
 // If baseDir is empty, ~/.config/cbr-tmpl/items is used.
 func NewFilesystemStorage(baseDir string) *FilesystemStorage {
 	if baseDir == "" {
-		home, _ := os.UserHomeDir()
+		home, err := os.UserHomeDir()
+		if err != nil {
+			panic(err)
+		}
 		baseDir = filepath.Join(home, ".config", "cbr-tmpl", "items")
 	}
-	os.MkdirAll(baseDir, 0755)
+	if err := os.MkdirAll(baseDir, 0755); err != nil {
+		panic(err)
+	}
 	return &FilesystemStorage{baseDir: baseDir}
 }
 

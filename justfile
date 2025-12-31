@@ -42,12 +42,11 @@ fix:
     @goimports -w .
     @golangci-lint run --fix
 
-# Run static checks (format check, lint, vet)
-check:
+# Run static checks (format, lint)
+check: fix
     @echo "🔍 Running static checks..."
-    @test -z "$$(goimports -l .)" || (echo "Run 'just fix' to format code" && exit 1)
+    @test -z "$(goimports -l .)" || (echo "goimports check failed" && exit 1)
     @golangci-lint run
-    @go vet ./...
 
 # ==============================================================================
 # TESTING

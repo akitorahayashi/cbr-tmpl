@@ -22,8 +22,12 @@ func TestFilesystemStorage_Add(t *testing.T) {
 
 func TestFilesystemStorage_List(t *testing.T) {
 	s := NewFilesystemStorage(t.TempDir())
-	s.Add("b", "")
-	s.Add("a", "")
+	if err := s.Add("b", ""); err != nil {
+		t.Fatalf("failed to add item 'b': %v", err)
+	}
+	if err := s.Add("a", ""); err != nil {
+		t.Fatalf("failed to add item 'a': %v", err)
+	}
 
 	items, _ := s.List()
 	if len(items) != 2 || items[0] != "a" || items[1] != "b" {
@@ -33,7 +37,9 @@ func TestFilesystemStorage_List(t *testing.T) {
 
 func TestFilesystemStorage_Delete(t *testing.T) {
 	s := NewFilesystemStorage(t.TempDir())
-	s.Add("item", "content")
+	if err := s.Add("item", "content"); err != nil {
+		t.Fatalf("failed to add item: %v", err)
+	}
 
 	if err := s.Delete("item"); err != nil {
 		t.Fatalf("Delete failed: %v", err)
@@ -54,7 +60,9 @@ func TestFilesystemStorage_Exists(t *testing.T) {
 		t.Error("Exists should return false for nonexistent item")
 	}
 
-	s.Add("item", "content")
+	if err := s.Add("item", "content"); err != nil {
+		t.Fatalf("failed to add item: %v", err)
+	}
 	if !s.Exists("item") {
 		t.Error("Exists should return true for existing item")
 	}
@@ -70,7 +78,9 @@ func TestFilesystemStorage_Get(t *testing.T) {
 	}
 
 	// 存在するアイテム
-	s.Add("item", "test content")
+	if err := s.Add("item", "test content"); err != nil {
+		t.Fatalf("failed to add item: %v", err)
+	}
 	content, err = s.Get("item")
 	if err != nil || content != "test content" {
 		t.Errorf("Get item: expected ('test content', nil), got ('%s', %v)", content, err)

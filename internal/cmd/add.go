@@ -22,20 +22,22 @@ func NewAddCmd(storage internal.Storage) *cobra.Command {
 			if err := storage.Add(id, content); err != nil {
 				var existsErr *internal.ItemExistsError
 				if errors.As(err, &existsErr) {
-					fmt.Fprintln(cmd.ErrOrStderr(), errorStyle.Render(
+					_, _ = fmt.Fprintln(cmd.ErrOrStderr(), errorStyle.Render(
 						fmt.Sprintf("Error: item '%s' already exists", id)))
 					return err
 				}
 				return err
 			}
-			fmt.Fprintln(cmd.OutOrStdout(), successStyle.Render(
+			_, _ = fmt.Fprintln(cmd.OutOrStdout(), successStyle.Render(
 				fmt.Sprintf("Added '%s'", id)))
 			return nil
 		},
 	}
 
 	cmd.Flags().StringVarP(&content, "content", "c", "", "Content of the item")
-	cmd.MarkFlagRequired("content")
+	if err := cmd.MarkFlagRequired("content"); err != nil {
+		panic(err)
+	}
 
 	return cmd
 }
