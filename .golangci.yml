@@ -1,0 +1,29 @@
+run:
+  timeout: 5m
+  tests: true
+
+linters:
+  enable:
+    - errcheck      # unchecked errors
+    - gosimple      # simplify code
+    - govet         # standard go vet
+    - ineffassign   # unused assignments
+    - staticcheck   # advanced checks
+    - unused        # unused code
+    - goimports     # import formatting
+    - misspell      # spelling mistakes
+    - revive        # golint replacement
+
+linters-settings:
+  goimports:
+    local-prefixes: github.com/akitorahayashi/cbr-tmpl
+
+  revive:
+    rules:
+      - name: exported
+        disabled: true  # don't require comments on all exports
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
