@@ -35,7 +35,9 @@ func NewAddCmd(storage internal.Storage) *cobra.Command {
 	}
 
 	cmd.Flags().StringVarP(&content, "content", "c", "", "Content of the item")
-	_ = cmd.MarkFlagRequired("content")
+	if err := cmd.MarkFlagRequired("content"); err != nil {
+		panic(err)
+	}
 
 	return cmd
 }
